@@ -88,6 +88,13 @@ def predict_credit_score(application: CreditApplication):
         
         # On injecte la nouvelle clé que le modèle attend
         data_dict["DAYS_BIRTH"] = days_birth
+
+        employed = data_dict.pop("YEARS_EMPLOYED")
+        if employed > 0:
+            data_dict["DAYS_EMPLOYED"] = -int(abs(employed) * 365.25)
+        else:
+            data_dict["DAYS_EMPLOYED"] = 365243 # Valeur souvent utilisée pour "Non applicable/Chômeur" dans ce dataset
+            # Si le modèle ne connait pas 365243, essayez simplement 0.
         
         # 2. Création DataFrame
         df_input = pd.DataFrame([data_dict])

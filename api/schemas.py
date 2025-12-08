@@ -25,6 +25,16 @@ class CreditApplication(BaseModel):
     AMT_INCOME_TOTAL: float = Field(..., gt=0, description="Revenu annuel")
     AMT_CREDIT: float = Field(..., gt=0, description="Montant du crédit")
     AGE_YEARS: int = Field(..., ge=18, le=100, description="Âge du client en années (ex: 35)")
+
+    # --- LEVIERS DE DÉCISION (Optionnels avec valeurs par défaut) ---
+    
+    # Par défaut, on met un score moyen (0.5) pour éviter le refus automatique
+    # Mais on permet de le changer pour la démo
+    EXT_SOURCE_2: float = Field(0.5, ge=0, le=1, description="Score crédit externe (0=Risqué, 1=Fiable)")
+    EXT_SOURCE_3: float = Field(0.5, ge=0, le=1, description="Score crédit externe (0=Risqué, 1=Fiable)")
+    
+    # Par défaut, 5 ans d'ancienneté
+    YEARS_EMPLOYED: float = Field(5, ge=0, description="Années d'ancienneté dans l'emploi actuel")
     
     
     class Config:
@@ -36,6 +46,9 @@ class CreditApplication(BaseModel):
                 "AMT_INCOME_TOTAL": 200000.0,
                 "AMT_CREDIT": 500000.0,
                 "AGE_YEARS": 35,
+                "YEARS_EMPLOYED": 10,
+                "EXT_SOURCE_2": 0.7,
+                "EXT_SOURCE_3": 0.6
             }
         }
 
