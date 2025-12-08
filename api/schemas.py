@@ -24,7 +24,7 @@ class CreditApplication(BaseModel):
     # --- CHAMPS CRITIQUES (Explicites) ---
     AMT_INCOME_TOTAL: float = Field(..., gt=0, description="Revenu annuel")
     AMT_CREDIT: float = Field(..., gt=0, description="Montant du crédit")
-    DAYS_BIRTH: int = Field(..., description="Âge en jours (ex: -15000)")
+    AGE_YEARS: int = Field(..., ge=18, le=100, description="Âge du client en années (ex: 35)")
     
     
     class Config:
@@ -35,7 +35,7 @@ class CreditApplication(BaseModel):
             "example": {
                 "AMT_INCOME_TOTAL": 200000.0,
                 "AMT_CREDIT": 500000.0,
-                "DAYS_BIRTH": -15000,
+                "AGE_YEARS": 35,
             }
         }
 
@@ -51,6 +51,9 @@ class CreditApplication(BaseModel):
         input_keys = set(values.keys())
         expected_set = set(EXPECTED_FEATURES)
         
+        if "DAYS_BIRTH" in expected_set:
+            expected_set.remove("DAYS_BIRTH")
+
         # Quelles colonnes manquent ?
         missing_cols = expected_set - input_keys
         

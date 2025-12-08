@@ -77,6 +77,17 @@ def predict_credit_score(application: CreditApplication):
     try:
         # 1. Conversion Pydantic -> Dict
         data_dict = application.model_dump()
+
+        # 🚨 ÉTAPE DE TRANSFORMATION (Refactor)
+        # On récupère l'âge en années et on le supprime du dictionnaire
+        age = data_dict.pop("AGE_YEARS") 
+        
+        # On calcule les jours négatifs (Années * 365.25 pour les années bissextiles)
+        # On utilise -abs() pour être sûr que ce soit négatif
+        days_birth = -int(abs(age) * 365.25)
+        
+        # On injecte la nouvelle clé que le modèle attend
+        data_dict["DAYS_BIRTH"] = days_birth
         
         # 2. Création DataFrame
         df_input = pd.DataFrame([data_dict])
@@ -104,7 +115,11 @@ def predict_credit_score(application: CreditApplication):
         return {
             "decision": decision,
             "probability_default": float(round(probability, 4)),
-            "risk_class": prediction
+            "risk_class": prediction,
+            "details": {
+                "age_input": age,
+                "days_birth_converted": days_birth # Pour vérifier le calcul
+            }
         }
 
     except Exception as e:
