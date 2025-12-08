@@ -3,9 +3,24 @@ import pandas as pd
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from contextlib import asynccontextmanager
-from schemas import CreditApplication
 import json
 import os
+import sys
+
+# --- 1. FIX PATHS (LA CORRECTION EST ICI) ---
+# On récupère le chemin absolu du dossier 'api' où se trouve ce fichier main.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# On l'ajoute au chemin de recherche Python pour trouver 'schemas.py'
+sys.path.append(BASE_DIR)
+
+# Maintenant l'import fonctionne, peu importe d'où on lance le code
+from schemas import CreditApplication
+
+# --- 2. CONFIGURATION FICHIERS ROBUSTE ---
+# On construit des chemins absolus pour les fichiers
+FEATURES_PATH = os.path.join(BASE_DIR, "features_list.json")
+MODEL_DIR = os.path.join(BASE_DIR, "model_files")
 
 # --- CONFIGURATION ---
 # URI du trackeur MLflow 
@@ -17,6 +32,7 @@ MODEL_VERSION = "1"
 
 # Variable globale pour stocker le modèle
 model = None
+MODEL_COLUMNS = []
 
 # --- LIFESPAN (CHARGEMENT UNIQUE) ---
 @asynccontextmanager
@@ -28,27 +44,51 @@ async def lifespan(app: FastAPI):
     global model, MODEL_COLUMNS
 
     # 1. Chargement de la liste des features
-    if os.path.exists("features_list.json"):
-        with open("features_list.json", "r") as f:
+    if os.path.exists(FEATURES_PATH):
+        with open(FEATURES_PATH, "r") as f:
             MODEL_COLUMNS = json.load(f)
             print(f"✅ Liste des {len(MODEL_COLUMNS)} features chargée.")
     else:
-        print("⚠️ features_list.json non trouvé ! L'API risque de ne pas fonctionner correctement.")
+        print(f"⚠️ features_list.json non trouvé ici : {FEATURES_PATH}")
+    # if os.path.exists("features_list.json"):
+    #     with open("features_list.json", "r") as f:
+    #         MODEL_COLUMNS = json.load(f)
+    #         print(f"✅ Liste des {len(MODEL_COLUMNS)} features chargée.")
+    # else:
+    #     print("⚠️ features_list.json non trouvé ! L'API risque de ne pas fonctionner correctement.")
 
-    print("🔄 Chargement du modèle depuis MLflow...")
+    # # 2. Chargement du modèle (MISE À JOUR)
+    # print("🔄 Chargement du modèle depuis MLflow...")
+    # try:
+    #     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    #     # Chargement via le Model Registry
+    #     model_uri = f"models:/{MODEL_NAME}/{MODEL_VERSION}"
+    #     model = mlflow.sklearn.load_model(model_uri)
+    #     print(f"✅ Modèle {MODEL_NAME} v{MODEL_VERSION} chargé avec succès !")
+    # except Exception as e:
+    #     print(f"❌ Erreur critique lors du chargement du modèle : {e}")
+    #     # En production, on pourrait vouloir arrêter l'API si le modèle ne charge pas
+    
+    
+    print("🔄 Chargement du modèle...")
     try:
-        mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-        # Chargement via le Model Registry
-        model_uri = f"models:/{MODEL_NAME}/{MODEL_VERSION}"
-        model = mlflow.sklearn.load_model(model_uri)
-        print(f"✅ Modèle {MODEL_NAME} v{MODEL_VERSION} chargé avec succès !")
+        # Priorité au modèle local (Production / Docker / Tests)
+        if os.path.exists(MODEL_DIR):
+            # On passe le chemin absolu du dossier
+            model = mlflow.sklearn.load_model(MODEL_DIR)
+            print("✅ Modèle chargé depuis le fichier local.")
+        else:
+            # Fallback (Dev local avec serveur MLflow)
+            print(f"⚠️ Dossier local non trouvé ({MODEL_DIR}), tentative MLflow serveur...")
+            mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+            model_uri = f"models:/{MODEL_NAME}/{MODEL_VERSION}"
+            model = mlflow.sklearn.load_model(model_uri)
+            print("✅ Modèle chargé depuis le serveur MLflow.")
+            
     except Exception as e:
-        print(f"❌ Erreur critique lors du chargement du modèle : {e}")
-        # En production, on pourrait vouloir arrêter l'API si le modèle ne charge pas
+        print(f"❌ Erreur critique lors du chargement : {e}")
     
-    yield # L'application tourne ici
-    
-    print("🛑 Arrêt de l'API, nettoyage des ressources.")
+    yield
     model = None
 
 # --- INITIALISATION API ---

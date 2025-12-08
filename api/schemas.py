@@ -1,7 +1,7 @@
 import json
 import os
-from pydantic import BaseModel, Field, model_validator
-from typing import Optional, Dict, Any
+from pydantic import BaseModel, Field, model_validator, ConfigDict
+from typing import Dict, Any
 
 # Chargement de la liste des features attendues
 # On gère le cas où le fichier n'est pas encore là pour éviter que l'API plante au dev
@@ -36,21 +36,21 @@ class CreditApplication(BaseModel):
     # Par défaut, 5 ans d'ancienneté
     YEARS_EMPLOYED: float = Field(5, ge=0, description="Années d'ancienneté dans l'emploi actuel")
     
-    
-    class Config:
+    model_config = ConfigDict(
         # "allow" dit à Pydantic : "Accepte tout ce qui n'est pas déclaré ci-dessus"
         # C'est la clé pour gérer les 140 colonnes sans les écrire
-        extra = "allow"
-        json_schema_extra = {
+        extra="allow",
+        json_schema_extra={
             "example": {
-                "AMT_INCOME_TOTAL": 200000.0,
-                "AMT_CREDIT": 500000.0,
-                "AGE_YEARS": 35,
+                "AMT_INCOME_TOTAL": 50000.0,
+                "AMT_CREDIT": 200000.0,
+                "AGE_YEARS": 40,
                 "YEARS_EMPLOYED": 10,
                 "EXT_SOURCE_2": 0.7,
                 "EXT_SOURCE_3": 0.6
             }
         }
+    )
 
     # --- VALIDATION DYNAMIQUE ---
     @model_validator(mode='before')
