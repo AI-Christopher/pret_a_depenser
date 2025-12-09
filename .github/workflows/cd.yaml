@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          lfs: true # On garde ça au cas où
+          lfs: true 
 
       - name: Debug - List files
         run: |
@@ -48,6 +48,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      # On récupère le code AVEC les fichiers LFS
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -60,5 +61,18 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
+          
+          # 1. Initialiser LFS (CRUCIAL : sinon git envoie le binaire brut)
+          git lfs install
+          
+          # 2. Ajouter le remote Hugging Face
           git remote add space https://oauth2:$HF_TOKEN@huggingface.co/spaces/AI-Christopher/pret-a-depenser-api
+          
+          # 3. Récupérer explicitement les objets LFS pour être sûr de les avoir
+          git lfs pull
+          
+          # 4. Envoyer les objets LFS d'abord (L'authentification se fait via l'URL du remote)
+          git lfs push --all space main
+          
+          # 5. Envoyer le code (les pointeurs seront corrects)
           git push --force space main
