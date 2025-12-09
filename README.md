@@ -1,3 +1,22 @@
+---
+title: Pret A Depenser API
+emoji: 💸
+colorFrom: green
+colorTo: blue
+sdk: docker
+pinned: false
+app_port: 7860
+---
+
+# API de Scoring Crédit - Prêt à Dépenser
+
+Cette API expose un modèle de Machine Learning (LightGBM) pour prédire le risque de défaut de crédit.
+
+## Utilisation
+
+L'API est documentée via Swagger UI.
+Endpoint de prédiction : `/predict`
+
 # Documentation du pipeline de scoring
 
 ## Structure du projet
