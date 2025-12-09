@@ -45,15 +45,15 @@ jobs:
   # JOB 2 : DÉPLOIEMENT VERS HUGGING FACE (Seulement sur push main et si tests OK)
   deploy-to-hf:
     needs: test
-    if: github.ref == 'refs/heads/main'
+    # On déploie seulement si on est sur la branche main (après merge)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      # On récupère le code AVEC les fichiers LFS
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          lfs: true
+          fetch-depth: 0  # Historique complet (Crucial pour la synchro Git)
+          lfs: true       # Récupère les fichiers LFS pour les envoyer
 
       - name: Push to Hugging Face Space
         env:
@@ -61,18 +61,5 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          
-          # 1. Initialiser LFS (CRUCIAL : sinon git envoie le binaire brut)
-          git lfs install
-          
-          # 2. Ajouter le remote Hugging Face
-          git remote add space https://oauth2:$HF_TOKEN@huggingface.co/spaces/AI-Christopher/pret-a-depenser-api
-          
-          # 3. Récupérer explicitement les objets LFS pour être sûr de les avoir
-          git lfs pull
-          
-          # 4. Envoyer les objets LFS d'abord (L'authentification se fait via l'URL du remote)
-          git lfs push --all space main
-          
-          # 5. Envoyer le code (les pointeurs seront corrects)
-          git push --force space main
+          # On utilise la syntaxe HTTPS directe qui fonctionnait pour vous
+          git push --force https://AI-Christopher:$HF_TOKEN@huggingface.co/spaces/AI-Christopher/pret-a-depenser-api main
