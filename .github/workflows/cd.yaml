@@ -1,0 +1,65 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # JOB 1 : TESTS UNITAIRES & INTÉGRATION
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          lfs: true 
+
+      - name: Debug - List files
+        run: |
+          ls -R api/model_files/
+          echo "Taille du modèle :"
+          du -h api/model_files/model.pkl
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install System Dependencies (Linux)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgomp1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Run Tests
+        run: |
+          pytest tests/
+
+  # JOB 2 : DÉPLOIEMENT VERS HUGGING FACE (Seulement sur push main et si tests OK)
+  deploy-to-hf:
+    needs: test
+    # On déploie seulement si on est sur la branche main (après merge)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Historique complet (Crucial pour la synchro Git)
+          lfs: true       # Récupère les fichiers LFS pour les envoyer
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          # On utilise la syntaxe HTTPS directe qui fonctionnait pour vous
+          git push --force https://AI-Christopher:$HF_TOKEN@huggingface.co/spaces/AI-Christopher/pret-a-depenser-api main
