@@ -389,7 +389,9 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.2.1
     # via mlflow-skinny
 python-json-logger==4.0.0
-    # via jupyter-events
+    # via
+    #   pret-a-depenser (pyproject.toml)
+    #   jupyter-events
 pytz==2025.2
     # via pandas
 pyyaml==6.0.3
