@@ -5,8 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "category-encoders>=2.8.1",
-    "evidently>=0.7.17",
+    "category-encoders>=2.7.0",
+    "evidently==0.6.0",
     "fastapi>=0.117.1",
     "httpx>=0.28.1",
     "imblearn>=0.0",
@@ -17,11 +17,12 @@ dependencies = [
     "notebook>=7.4.5",
     "pandas>=2.3.2",
     "pip>=25.3",
+    "plotly>=6.5.0",
     "pydantic>=2.11.9",
     "pytest>=9.0.2",
     "python-json-logger>=3.3.0",
-    "scikit-learn>=1.7.2",
     "seaborn>=0.13.2",
+    "streamlit>=1.52.1",
     "uvicorn>=0.37.0",
     "xgboost>=3.0.5",
 ]
