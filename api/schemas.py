@@ -3,14 +3,20 @@ import os
 from pydantic import BaseModel, Field, model_validator, ConfigDict
 from typing import Dict, Any
 
-# Chargement de la liste des features attendues
-# On gère le cas où le fichier n'est pas encore là pour éviter que l'API plante au dev
-FEATURES_FILE = "features_list.json"
+# --- 1. CHARGEMENT ROBUSTE DES FEATURES ---
+# On récupère le dossier où se trouve ce fichier schemas.py (c'est-à-dire le dossier 'api')
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# On construit le chemin absolu vers le fichier JSON
+FEATURES_FILE = os.path.join(CURRENT_DIR, "features_list.json")
+
 EXPECTED_FEATURES = []
 
 if os.path.exists(FEATURES_FILE):
     with open(FEATURES_FILE, "r") as f:
         EXPECTED_FEATURES = json.load(f)
+    # Optionnel : On peut commenter le print pour moins de bruit dans les logs
+    # print(f"✅ Schéma validé : {len(EXPECTED_FEATURES)} colonnes chargées.")
 else:
     print(f"⚠️ ATTENTION: {FEATURES_FILE} non trouvé. La validation stricte des colonnes est désactivée.")
 
@@ -64,8 +70,11 @@ class CreditApplication(BaseModel):
         input_keys = set(values.keys())
         expected_set = set(EXPECTED_FEATURES)
         
+        # Gestion des champs calculés (DAYS_BIRTH est généré par l'API à partir de AGE_YEARS, donc on ne l'attend pas en entrée)
         if "DAYS_BIRTH" in expected_set:
             expected_set.remove("DAYS_BIRTH")
+        if "DAYS_EMPLOYED" in expected_set:
+            expected_set.remove("DAYS_EMPLOYED") # Idem pour l'emploi
 
         # Quelles colonnes manquent ?
         missing_cols = expected_set - input_keys
@@ -74,7 +83,8 @@ class CreditApplication(BaseModel):
             # Option A (Stricte) : On rejette la requête
             # raise ValueError(f"Données manquantes : Il manque {len(missing_cols)} champs obligatoires. Ex: {list(missing_cols)[:3]}...")
             
-            # Option B (Souple - Décommenter si besoin) : On remplit avec 0 ou médiane
+            # Option B (Souple - Activée) : On remplit avec 0 ou médiane
+            # C'est préférable pour éviter que l'API plante si le client oublie une colonne secondaire
             for col in missing_cols:
                 values[col] = 0.0 
         

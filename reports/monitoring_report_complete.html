@@ -1,0 +1,656 @@
+
+<html>
+<head>
+    <title>Rapport de Monitoring ML</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f4f6f9; }
+        h1, h2 { color: #2c3e50; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .metric-box { display: inline-block; width: 30%; text-align: center; }
+        .metric-val { font-size: 24px; font-weight: bold; color: #3498db; }
+        .metric-label { color: #7f8c8d; }
+        .alert { color: #e74c3c; }
+        table { border-collapse: collapse; width: 100%; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #34495e; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h1>🛡️ Dashboard de Monitoring API</h1>
+    <p>Généré le : 2025-12-11 15:15:42.696374</p>
+
+    <div class="card">
+        <h2>⚙️ Performance Opérationnelle</h2>
+        <div class="metric-box">
+            <div class="metric-val" style="color: green">0.0%</div>
+            <div class="metric-label">Taux d'Erreur</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-val">5.2 ms</div>
+            <div class="metric-label">Latence Moyenne</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-val">12</div>
+            <div class="metric-label">Appels Totaux</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📉 Analyse de Dérive des Données (Data Drift)</h2>
+        <p>Comparaison statistique (Test KS) entre Données d'Entraînement et Production.</p>
+        <p><strong>Colonnes en alerte :</strong> <span class="alert" style="font-weight:bold; font-size:1.2em">35</span> / 85</p>
+
+        <div style="max-height: 500px; overflow-y: auto;">
+            <table border="1" class="dataframe table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Feature</th>
+      <th>P-Value</th>
+      <th>Drift</th>
+      <th>Moy Ref</th>
+      <th>Moy Prod</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>YEARS_BEGINEXPLUATATION_AVG</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.98</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>CNT_INSTALMENT</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>13.78</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_3</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.71</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>MONTHS_BALANCE_x</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>-49.61</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_CREDIT_SUM_DEBT</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>140977.85</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_CREDIT_SUM</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>351944.96</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_ANNUITY</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>14392.25</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_DOWN_PAYMENT</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>6671.94</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>HOUR_APPR_PROCESS_START</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>12.06</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>REGION_RATING_CLIENT</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>2.05</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DAYS_CREDIT_ENDDATE</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>3615.75</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_CONT_MOBILE</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>1.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLOORSMAX_AVG</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.20</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DAYS_CREDIT</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>-562.27</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_MOBIL</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>1.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DAYS_ID_PUBLISH</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>-2994.20</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DAYS_REGISTRATION</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>-4986.13</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>NUM_INSTALMENT_NUMBER</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>23.14</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>REGION_POPULATION_RELATIVE</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.02</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_CREDIT_x</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>599028.60</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_INCOME_TOTAL</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>168797.69</td>
+      <td>72500.00</td>
+    </tr>
+    <tr>
+      <td>OCCUPATION_TYPE_4</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.73</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_OWN_REALTY</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.69</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_REQ_CREDIT_BUREAU_YEAR</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>1.78</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_EMP_PHONE</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.82</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>TOTALAREA_MODE</td>
+      <td>0.0000</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.09</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>OCCUPATION_TYPE_2</td>
+      <td>0.0001</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.62</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DAYS_TERMINATION</td>
+      <td>0.0019</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>177764.07</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>ORGANIZATION_TYPE_4</td>
+      <td>0.0022</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.51</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DPD</td>
+      <td>0.0024</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>15.39</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>ORGANIZATION_TYPE_5</td>
+      <td>0.0044</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.48</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>EMERGENCYSTATE_MODE</td>
+      <td>0.0044</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.96</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>OBS_30_CNT_SOCIAL_CIRCLE</td>
+      <td>0.0070</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>1.42</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>ORGANIZATION_TYPE_3</td>
+      <td>0.0133</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.44</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>EXT_SOURCE_2</td>
+      <td>0.0150</td>
+      <td><span style="color:red; font-weight:bold">🔴 OUI</span></td>
+      <td>0.51</td>
+      <td>0.57</td>
+    </tr>
+    <tr>
+      <td>DAYS_BIRTH</td>
+      <td>0.0585</td>
+      <td>🟢 NON</td>
+      <td>-16037.03</td>
+      <td>-14914.08</td>
+    </tr>
+    <tr>
+      <td>ORGANIZATION_TYPE_2</td>
+      <td>0.0744</td>
+      <td>🟢 NON</td>
+      <td>0.35</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>CODE_GENDER</td>
+      <td>0.0940</td>
+      <td>🟢 NON</td>
+      <td>0.34</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_OWN_CAR</td>
+      <td>0.0966</td>
+      <td>🟢 NON</td>
+      <td>0.34</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>OCCUPATION_TYPE_3</td>
+      <td>0.1010</td>
+      <td>🟢 NON</td>
+      <td>0.34</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DAYS_EMPLOYED</td>
+      <td>0.1068</td>
+      <td>🟢 NON</td>
+      <td>-2134.71</td>
+      <td>88693.58</td>
+    </tr>
+    <tr>
+      <td>CNT_CHILDREN</td>
+      <td>0.1884</td>
+      <td>🟢 NON</td>
+      <td>0.42</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_PHONE</td>
+      <td>0.2485</td>
+      <td>🟢 NON</td>
+      <td>0.28</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>EXT_SOURCE_3</td>
+      <td>0.2632</td>
+      <td>🟢 NON</td>
+      <td>0.52</td>
+      <td>0.53</td>
+    </tr>
+    <tr>
+      <td>REG_CITY_NOT_WORK_CITY</td>
+      <td>0.4773</td>
+      <td>🟢 NON</td>
+      <td>0.23</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_WORK_PHONE</td>
+      <td>0.6570</td>
+      <td>🟢 NON</td>
+      <td>0.20</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_ANNUITY_y</td>
+      <td>0.6770</td>
+      <td>🟢 NON</td>
+      <td>17188.32</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>SK_DPD_x</td>
+      <td>0.7817</td>
+      <td>🟢 NON</td>
+      <td>14.78</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_REQ_CREDIT_BUREAU_QRT</td>
+      <td>0.8506</td>
+      <td>🟢 NON</td>
+      <td>0.23</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_CREDIT_SUM_LIMIT</td>
+      <td>0.8785</td>
+      <td>🟢 NON</td>
+      <td>20190.64</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_REQ_CREDIT_BUREAU_MON</td>
+      <td>0.9403</td>
+      <td>🟢 NON</td>
+      <td>0.23</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>OCCUPATION_TYPE_1</td>
+      <td>0.9446</td>
+      <td>🟢 NON</td>
+      <td>0.14</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>ORGANIZATION_TYPE_1</td>
+      <td>0.9728</td>
+      <td>🟢 NON</td>
+      <td>0.13</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>DEF_30_CNT_SOCIAL_CIRCLE</td>
+      <td>0.9922</td>
+      <td>🟢 NON</td>
+      <td>0.14</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>NAME_CONTRACT_TYPE</td>
+      <td>0.9994</td>
+      <td>🟢 NON</td>
+      <td>0.10</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_6</td>
+      <td>0.9998</td>
+      <td>🟢 NON</td>
+      <td>0.09</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_REQ_CREDIT_BUREAU_DAY</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.01</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_EMAIL</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.06</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>REG_REGION_NOT_LIVE_REGION</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.02</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>REG_REGION_NOT_WORK_REGION</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.05</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>REG_CITY_NOT_LIVE_CITY</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.08</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_2</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_4</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>CNT_CREDIT_PROLONG</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.03</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_5</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.02</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_CREDIT_SUM_OVERDUE</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>42.45</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_7</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_8</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.08</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_9</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_10</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_11</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_13</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_14</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_15</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_16</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.01</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>ORGANIZATION_TYPE_0</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.07</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_17</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_18</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.01</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_19</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_20</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>OCCUPATION_TYPE_0</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.01</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_21</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_REQ_CREDIT_BUREAU_HOUR</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.01</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>AMT_REQ_CREDIT_BUREAU_WEEK</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.03</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>FLAG_DOCUMENT_12</td>
+      <td>1.0000</td>
+      <td>🟢 NON</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+    </div>
+</body>
+</html>
