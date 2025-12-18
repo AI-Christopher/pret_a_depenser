@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi import FastAPI, HTTPException, Depends, status
 from contextlib import asynccontextmanager
-from pythonjsonlogger import jsonlogger
+from pythonjsonlogger.json import JsonFormatter
 import time
 import logging
 import json
@@ -37,9 +37,9 @@ logger.setLevel(logging.INFO)
 # Configuration du Handler (Écriture fichier)
 if not logger.handlers:
     file_handler = logging.FileHandler(LOG_FILE)
-    formatter = jsonlogger.JsonFormatter(
-        '%(asctime)s %(levelname)s %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
+    formatter = JsonFormatter(
+    '%(asctime)s %(levelname)s %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
     )
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
