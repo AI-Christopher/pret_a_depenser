@@ -185,6 +185,10 @@ def predict_credit_score(application: CreditApplication):
         }
         logger.info("Prediction processed", extra=log_data)
 
+        # Cela force l'écriture physique sur le disque dur IMMÉDIATEMENT
+        for handler in logger.handlers:
+            handler.flush()
+
         return {
             "decision": decision,
             "probability_default": float(round(probability, 4)),
@@ -203,6 +207,9 @@ def predict_credit_score(application: CreditApplication):
             "raw_input": application.model_dump()
         }
         logger.error("Prediction failed", extra=error_log)
+
+        for handler in logger.handlers:
+            handler.flush()
         
         print(f"Erreur : {e}")
         raise HTTPException(status_code=400, detail=f"Erreur : {str(e)}")
