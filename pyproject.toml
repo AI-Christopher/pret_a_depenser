@@ -1,0 +1,32 @@
+[project]
+name = "pret-a-depenser"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "category-encoders>=2.7.0",
+    "evidently==0.6.0",
+    "fastapi>=0.117.1",
+    "httpx>=0.28.1",
+    "imblearn>=0.0",
+    "ipykernel>=6.30.1",
+    "lightgbm>=4.6.0",
+    "missingno>=0.5.2",
+    "mlflow>=3.4.0",
+    "notebook>=7.4.5",
+    "pandas>=2.3.2",
+    "pip>=25.3",
+    "plotly>=6.5.0",
+    "pydantic>=2.11.9",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "python-json-logger>=3.3.0",
+    "seaborn>=0.13.2",
+    "streamlit>=1.52.1",
+    "uvicorn>=0.37.0",
+    "xgboost>=3.0.5",
+]
+
+[tool.setuptools]
+packages = ["src"]

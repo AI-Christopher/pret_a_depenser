@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-json-logger
+pydantic
+pandas
+scikit-learn
+lightgbm
+evidently
+mlflow
+requests
+imbalanced-learn
