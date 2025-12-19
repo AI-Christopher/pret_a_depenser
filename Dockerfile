@@ -1,6 +1,9 @@
 # Utilisation d'une image Python légère et récente
 FROM python:3.12-slim
 
+# Empêche Python de garder les logs en mémoire
+ENV PYTHONUNBUFFERED=1
+
 # Définition du répertoire de travail dans le conteneur
 WORKDIR /app
 
@@ -17,10 +20,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copie du code de l'API et des fichiers nécessaires
 COPY api/ ./api/
 
-# Copie du dossier src si votre modèle en dépend (custom transformers etc.)
-# COPY src/ ./src/ 
-# (Décommentez la ligne ci-dessus si votre pickle a besoin de classes définies dans src)
+# 1. On crée le dossier de logs manuellement
+RUN mkdir -p /app/api/production_logs
 
+# 2. On donne la permission "777" (Tout le monde peut écrire) à ce dossier.
+# Sans ça, l'utilisateur Hugging Face ne peut pas créer le fichier jsonl.
+RUN chmod -R 777 /app/api/production_logs
+    
 # Exposition du port (Hugging Face Spaces attend le port 7860 par défaut)
 EXPOSE 7860
 
