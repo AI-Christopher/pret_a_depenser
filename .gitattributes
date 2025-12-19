@@ -1,2 +1,6 @@
-api/model_files/*.pkl filter=lfs diff=lfs merge=lfs -text
+# On force requirements.txt à être vu comme du texte
+requirements.txt text eol=lf
+
+# On gère le modèle ML
 *.pkl filter=lfs diff=lfs merge=lfs -text
+api/model_files/*.pkl filter=lfs diff=lfs merge=lfs -text
